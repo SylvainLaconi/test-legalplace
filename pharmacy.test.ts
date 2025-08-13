@@ -44,7 +44,6 @@ describe("Pharmacy", () => {
     ).toEqual([new Drug(DrugName.MagicPill, 15, 40)]);
   });
 
-  // Fervex
   it('should increase "Fervex" by 1 when > 10 days', () => {
     expect(new Pharmacy([new Drug(DrugName.Fervex, 11, 20)]).updateBenefitValue()).toEqual(
       [new Drug(DrugName.Fervex, 10, 21)]

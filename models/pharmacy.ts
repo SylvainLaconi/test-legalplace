@@ -1,12 +1,7 @@
 import { Drug, DrugName } from "./drug";
 
-
 export class Pharmacy {
   constructor(public drugs: Drug[] = []) {}
-
-  private clamp(v: number): number {
-    return Math.max(0, Math.min(50, v));
-  }
 
   updateBenefitValue(): Drug[] {
     for (const drug of this.drugs) {
@@ -19,9 +14,10 @@ export class Pharmacy {
         case DrugName.HerbalTea:
           delta = isExpired ? 2 : 1;
           break;
+
         case DrugName.Fervex:
           if (isExpired) {
-            drug.benefit = 0;
+            drug.benefit = 0; // clamp appliqué par Drug
             drug.expiresIn -= 1;
             continue;
           } else if (drug.expiresIn <= 5) {
@@ -32,17 +28,20 @@ export class Pharmacy {
             delta = 1;
           }
           break;
+
         case DrugName.Dafalgan:
           delta = isExpired ? -4 : -2;
           break;
+
         default:
           delta = isExpired ? -2 : -1;
           break;
       }
 
-      drug.benefit = this.clamp(drug.benefit + delta);
+      drug.benefit = drug.benefit + delta; // clamp automatique
       drug.expiresIn -= 1;
     }
+
     return this.drugs;
   }
 }
